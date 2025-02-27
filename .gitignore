@@ -1,0 +1,41 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# dotenv files (Do not commit secrets!)
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Output files
+dist/
+build/
+.cache/
+.tmp/
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Redis dumps (if using Redis)
+dump.rdb
+appendonly.aof
+
+# MongoDB data (if using local MongoDB)
+data/

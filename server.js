@@ -1,26 +1,26 @@
-require("dotenv").config();
 const express = require("express");
-const cors = require("cors");
-const helmet = require("helmet");
-const connectDB = require("./config/db");
-
-const authRoutes = require("./routes/authRoutes");
-const userRoutes = require("./routes/userRoutes");
-
+const Joi = require("joi");
+const sanitizeHtml = require("sanitize-html");
 const app = express();
-
-// Middleware
 app.use(express.json());
-app.use(cors());
-app.use(helmet());
 
-// Database Connection
-connectDB();
+// ✅ Define Validation Schema using Joi
+const userSchema = Joi.object({
+  name: Joi.string().trim().min(1).required(),
+  email: Joi.string().email().required(),
+  age: Joi.number().greater(18).required(),
+});
 
-// Routes
-app.use("/api/auth", authRoutes);
-app.use("/api", userRoutes);
+// ✅ POST /createUser - Validate & Sanitize Input
+app.post("/createUser", (req, res) => {
+  const { error, value } = userSchema.validate(req.body, { escapeHtml: true });
 
-// Start Server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message });
+  }
+
+  res.json({ message: "User created successfully", data: value });
+});
+
+// ✅ Start Server
+app.listen(5000, () => console.log("Server running on port 5000"));

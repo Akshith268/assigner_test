@@ -18,6 +18,8 @@ const rateLimiter = (req, res, next) => {
     requestTimes.shift();
   }
 
+  console.log(`IP: ${ip}, Requests: ${requestTimes.length}, Timestamps:`, requestTimes);
+
   if (requestTimes.length >= maxRequests) {
     return res.status(429).json({ message: "Too many requests. Try again later." });
   }
